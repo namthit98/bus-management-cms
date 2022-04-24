@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -5,20 +6,42 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+import AuthService from '../../services/auth.service';
+import handleErrors from '../../libs/handle-error';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth.context';
+import { authStateDefault } from '../../providers/auth.provider';
+import { TOKEN_KEY } from '../../const';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { user, dispatch } = useContext(AuthContext);
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
-    navigate('/');
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    AuthService.login({
+      username: data.get('username'),
+      password: data.get('password'),
+    })
+      .then((res) => {
+        if (res && res.data) {
+          dispatch({ type: 'USER_LOGIN', payload: res.data });
+          Cookies.set(TOKEN_KEY, res.data.token);
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        handleErrors(err);
+        dispatch({ type: 'USER_LOGIN', payload: authStateDefault });
+      });
   };
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -41,10 +64,10 @@ const LoginPage = () => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
           />
           <TextField

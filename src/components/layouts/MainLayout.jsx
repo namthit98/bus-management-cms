@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,12 +18,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/auth.context';
+import { TOKEN_KEY } from '../../const';
 
 const drawerWidth = 240;
 
 function MainLayout(props) {
   const { window } = props;
   const navigate = useNavigate();
+  const { dispatch } = React.useContext(AuthContext);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -43,7 +47,7 @@ function MainLayout(props) {
       <Toolbar />
       <Divider />
       <List>
-        <ListItem button key={'/'}>
+        <ListItem button key={'/'} onClick={() => navigate('/')}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
@@ -132,8 +136,31 @@ function MainLayout(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              {/* <MenuItem
+                onClick={() => {
+                  navigate('/profile');
+                  handleClose();
+                }}
+              >
+                Profile
+              </MenuItem> */}
+              <MenuItem
+                onClick={() => {
+                  navigate('/change-password');
+                  handleClose();
+                }}
+              >
+                Change password
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  dispatch({ type: 'USER_LOGOUT' });
+                  Cookies.remove(TOKEN_KEY);
+                  navigate('/login');
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
