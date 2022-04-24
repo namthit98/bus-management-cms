@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useQuery } from 'react-query';
-import UserService from '../../services/user.service';
+import RouteService from '../../services/route.service';
 import { toast } from 'react-toastify';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
@@ -21,20 +21,19 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const ListUser = () => {
+const ListRoute = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState('all');
   const [searchText, setSearchText] = useState([]);
-  const userQueryData = useQuery(
-    ['users', { searchText, role }],
+  const routeQueryData = useQuery(
+    ['routes', { searchText }],
     () => {
-      return UserService.findAll({ searchText, role }).then((res) => res.data);
+      return RouteService.findAll({ searchText }).then((res) => res.data);
     },
     {
       placeholderData: [],
       onError: () => {
-        toast.error('Load user data failed');
+        toast.error('Load route data failed');
       },
     }
   );
@@ -52,10 +51,10 @@ const ListUser = () => {
   };
 
   const handleDelete = () => {
-    UserService.delete(selectedId)
+    RouteService.delete(selectedId)
       .then(() => {
-        toast.success('Delete user successfully!');
-        userQueryData.refetch();
+        toast.success('Delete route successfully!');
+        routeQueryData.refetch();
       })
       .catch((err) => {
         handleErrors(err);
@@ -67,38 +66,38 @@ const ListUser = () => {
   };
 
   const columns = [
-    { field: 'username', headerName: 'Username', flex: 1, minWidth: 200 },
-    { field: 'fullname', headerName: 'Fullname', flex: 1, minWidth: 200 },
     {
-      field: 'phone',
-      headerName: 'Phone',
+      field: 'startingPoint',
+      headerName: 'Starting Point',
       flex: 1,
       minWidth: 200,
     },
     {
-      field: 'role',
-      headerName: 'Role',
+      field: 'destination',
+      headerName: 'Destination',
       flex: 1,
       minWidth: 200,
-      renderCell: (params) => {
-        let color = 'success';
-        let variant = 'outlined';
-
-        if (params.value === 'staff') {
-          color = 'success';
-        }
-
-        if (params.value === 'driver') {
-          color = 'primary';
-        }
-
-        if (params.value === 'admin') {
-          color = 'success';
-          variant = 'contained';
-        }
-
-        return <Chip label={params.value} color={color} variant={variant} />;
-      },
+    },
+    {
+      field: 'price',
+      headerName: 'Price (VNĐ)',
+      flex: 1,
+      minWidth: 200,
+      type: 'number',
+    },
+    {
+      field: 'timeShift',
+      headerName: 'Time Shift (Hour)',
+      flex: 1,
+      minWidth: 200,
+      type: 'number',
+    },
+    {
+      field: 'distance',
+      headerName: 'Distance (Km)',
+      flex: 1,
+      minWidth: 200,
+      type: 'number',
     },
     {
       field: 'action',
@@ -119,7 +118,7 @@ const ListUser = () => {
             <IconButton
               aria-label="edit"
               size="small"
-              onClick={() => navigate(`/users/${params.id}/update`)}
+              onClick={() => navigate(`/routes/${params.id}/update`)}
             >
               <EditIcon />
             </IconButton>
@@ -158,28 +157,11 @@ const ListUser = () => {
             }}
           />
         </Box>
-
-        <Box sx={{ width: { xs: '100%', md: 200 } }}>
-          <TextField
-            select
-            fullWidth
-            size="small"
-            label="Role"
-            value={role}
-            onChange={(e) => {
-              setRole(e.target.value);
-            }}
-          >
-            <MenuItem value={'all'}>All</MenuItem>
-            <MenuItem value={'staff'}>Staff</MenuItem>
-            <MenuItem value={'driver'}>Driver</MenuItem>
-          </TextField>
-        </Box>
       </Box>
 
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
-          rows={userQueryData?.data || []}
+          rows={routeQueryData?.data || []}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 20]}
@@ -189,7 +171,7 @@ const ListUser = () => {
           disableColumnFilter
           disableSelectionOnClick
           disableColumnSelector
-          loading={userQueryData.isLoading}
+          loading={routeQueryData.isLoading}
           getRowId={(row) => row?._id}
         />
       </Box>
@@ -197,4 +179,4 @@ const ListUser = () => {
   );
 };
 
-export default ListUser;
+export default ListRoute;

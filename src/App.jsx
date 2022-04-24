@@ -17,6 +17,8 @@ import ChangePassword from './pages/user/change-password';
 import Profile from './pages/user/profile';
 import UserPage from './pages/user/user';
 import UpdateUserPage from './pages/user/update';
+import RoutePage from './pages/route/route';
+import UpdateRoutePage from './pages/route/update';
 
 function App() {
   const { dispatch } = useContext(AuthContext);
@@ -95,6 +97,24 @@ function App() {
             element={
               <RequiredAuth>
                 <UpdateUserPage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/routes"
+            element={
+              <RequiredAuth>
+                <RoutePage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/routes/:routeId/update"
+            element={
+              <RequiredAuth>
+                <UpdateRoutePage />
               </RequiredAuth>
             }
           />

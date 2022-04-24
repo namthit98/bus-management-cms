@@ -29,7 +29,14 @@ const CreateUser = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
+      username: '',
+      password: '',
+      fullname: '',
+      email: '',
+      phone: '',
       birthday: null,
+      identification: '',
+      role: '',
     },
   });
 
