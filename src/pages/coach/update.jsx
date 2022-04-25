@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useForm, Controller } from 'react-hook-form';
@@ -35,9 +36,9 @@ const UpdateCoachPage = () => {
     formState: { errors },
     handleSubmit,
     setValue,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {},
   });
   const coachQueryData = useQuery(
     ['coaches', params.coachId],
@@ -69,7 +70,11 @@ const UpdateCoachPage = () => {
       });
   };
 
-  if (coachQueryData.isLoading || getCreationQuery.isLoading)
+  if (
+    coachQueryData.isLoading ||
+    getCreationQuery.isLoading ||
+    coachQueryData.isFetching
+  )
     return <PageLoading />;
 
   return (

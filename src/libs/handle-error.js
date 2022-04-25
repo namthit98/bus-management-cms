@@ -1,13 +1,15 @@
 import { toast } from 'react-toastify';
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 
 const handleErrors = (error) => {
+  let message = '';
   if (error && error.response) {
-    toast.error(
-      get(error, 'response.data.message.0', '') ||
-        get(error, 'response.data.message', '') ||
-        'Error from server!'
-    );
+    if (isArray(error.response?.data?.message)) {
+      message = get(error, 'response.data.message.0', '');
+    } else {
+      message = get(error, 'response.data.message', '');
+    }
+    toast.error(message || 'Error from server!');
     toast.clearWaitingQueue();
   }
 };

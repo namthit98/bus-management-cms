@@ -69,7 +69,7 @@ const UpdateUserPage = () => {
       });
   };
 
-  if (userQueryData.isLoading) {
+  if (userQueryData.isLoading || userQueryData.isFetching) {
     return <PageLoading />;
   }
 

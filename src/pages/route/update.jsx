@@ -63,7 +63,7 @@ const UpdateRoutePage = () => {
       });
   };
 
-  if (routeQueryData.isLoading) {
+  if (routeQueryData.isLoading || routeQueryData.isFetching) {
     return <PageLoading />;
   }
 

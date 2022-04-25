@@ -75,11 +75,11 @@ function MainLayout(props) {
           <ListItemText primary={'Coaches'} />
         </ListItem>
 
-        <ListItem button key={'/orders'} onClick={() => navigate('/orders')}>
+        <ListItem button key={'/lines'} onClick={() => navigate('/lines')}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={'Orders'} />
+          <ListItemText primary={'Lines'} />
         </ListItem>
       </List>
     </div>

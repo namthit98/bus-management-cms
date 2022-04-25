@@ -21,6 +21,8 @@ import RoutePage from './pages/route/route';
 import UpdateRoutePage from './pages/route/update';
 import CoachPage from './pages/coach/coach';
 import UpdateCoachPage from './pages/coach/update';
+import LinePage from './pages/line/line';
+import LineDetail from './pages/line/line-detail';
 
 function App() {
   const { dispatch } = useContext(AuthContext);
@@ -135,6 +137,24 @@ function App() {
             element={
               <RequiredAuth>
                 <UpdateCoachPage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/lines"
+            element={
+              <RequiredAuth>
+                <LinePage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/lines/:lineId"
+            element={
+              <RequiredAuth>
+                <LineDetail />
               </RequiredAuth>
             }
           />
