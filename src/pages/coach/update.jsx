@@ -21,7 +21,7 @@ const schema = yup.object({
   licensePlates: yup.string().required('License Plates is required'),
   seats: yup.number().required('Seats is required'),
   type: yup.string().required('Type is required'),
-  route: yup.string().required('Route is required'),
+  // route: yup.string().required('Route is required'),
   driver: yup.string().required('Driver is required'),
 });
 
@@ -51,7 +51,7 @@ const UpdateCoachPage = () => {
         setValue('licensePlates', data?.licensePlates);
         setValue('seats', data?.seats);
         setValue('type', data?.type);
-        setValue('route', data?.route?._id);
+        // setValue('route', data?.route?._id);
         setValue('driver', data?.driver?._id);
       },
       onError: () => {
@@ -168,7 +168,7 @@ const UpdateCoachPage = () => {
               )}
             />
           </Grid>
-
+          {/* 
           <Grid item xs={12} md={6}>
             <Controller
               name="route"
@@ -195,7 +195,7 @@ const UpdateCoachPage = () => {
                 </TextField>
               )}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6}>
             <Controller

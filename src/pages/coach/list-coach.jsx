@@ -73,20 +73,20 @@ const ListCoach = () => {
       flex: 1,
       minWidth: 200,
     },
-    {
-      field: 'route',
-      headerName: 'Route',
-      flex: 1,
-      minWidth: 200,
-      renderCell: (params) => {
-        return (
-          <div className="rowitem">
-            {params?.row?.route?.startingPoint} -{' '}
-            {params?.row?.route?.destination}
-          </div>
-        );
-      },
-    },
+    // {
+    //   field: 'route',
+    //   headerName: 'Route',
+    //   flex: 1,
+    //   minWidth: 200,
+    //   renderCell: (params) => {
+    //     return (
+    //       <div className="rowitem">
+    //         {params?.row?.route?.startingPoint} -{' '}
+    //         {params?.row?.route?.destination}
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       field: 'driver',
       headerName: 'Driver',

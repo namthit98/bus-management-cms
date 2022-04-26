@@ -18,7 +18,7 @@ const schema = yup.object({
   licensePlates: yup.string().required('License Plates is required'),
   seats: yup.number().required('Seats is required'),
   type: yup.string().required('Type is required'),
-  route: yup.string().required('Route is required'),
+  // route: yup.string().required('Route is required'),
   driver: yup.string().required('Driver is required'),
 });
 
@@ -39,7 +39,7 @@ const CreateCoach = () => {
       licensePlates: '',
       seats: '',
       type: '',
-      route: '',
+      // route: '',
       driver: '',
     },
   });
@@ -141,7 +141,7 @@ const CreateCoach = () => {
             )}
           />
         </Grid>
-
+        {/* 
         <Grid item xs={12} md={6}>
           <Controller
             name="route"
@@ -168,7 +168,7 @@ const CreateCoach = () => {
               </TextField>
             )}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={6}>
           <Controller

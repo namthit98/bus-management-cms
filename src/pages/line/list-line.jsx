@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Box,
   Button,
@@ -94,10 +94,15 @@ const ListLine = () => {
       });
   };
 
+  const sortData = (data = []) => {
+    const outDates = data.filter((x) => x.index === -1);
+    const dates = data.filter((x) => x.index !== -1);
+
+    return [...dates, ...outDates];
+  };
+
   if (lineDataQuery.isLoading || startingPointAndDestinations.isLoading)
     return <PageLoading />;
-
-  console.log(startTime);
 
   return (
     <>
@@ -174,13 +179,30 @@ const ListLine = () => {
         </Grid>
       </Box>
 
-      {lineDataQuery.data.map((line, index) => {
-        let bg = '#fff'
+      {sortData(
+        lineDataQuery.data.map((line) => {
+          if (moment(line?.startTime).isBefore(moment())) {
+            line.index = -1;
+          }
+
+          return line;
+        })
+      ).map((line, index) => {
+        let bg = '#fff';
         const start = moment(line?.startTime); // some random moment in time (in ms)
         const end = moment(); // some random moment after start (in ms)
         const diff = start.diff(end);
-        if(diff && moment.duration(diff, "milliseconds").asMinutes() < 30) {
-          bg = '#e3ffde'
+        if (
+          diff &&
+          diff > 0 &&
+          moment.duration(diff, 'milliseconds').asMinutes() < 30 &&
+          index === 0
+        ) {
+          bg = '#e3ffde';
+        }
+
+        if (line.index === -1) {
+          bg = '#e5e5e5';
         }
 
         return (
@@ -230,12 +252,14 @@ const ListLine = () => {
                   <VisibilityIcon />
                 </IconButton>
                 &nbsp;&nbsp;&nbsp;
-                {isAdmin || isStaff ? <IconButton
-                  aria-label="delete"
-                  onClick={handleClickOpen.bind(null, line._id)}
-                >
-                  <DeleteIcon />
-                </IconButton> : null}
+                {isAdmin || isStaff ? (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={handleClickOpen.bind(null, line._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                ) : null}
               </Grid>
             </Grid>
           </Paper>

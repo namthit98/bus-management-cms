@@ -20,6 +20,8 @@ const schema = yup.object({
   price: yup.number().required('Price is required'),
   timeShift: yup.number().required('Time Shift is required'),
   distance: yup.number().required('Distance is required'),
+  pickupPoint: yup.string().required('Pickup point is required'),
+  dropoffPoint: yup.string().required('Dropoff point is required'),
 });
 
 const UpdateRoutePage = () => {
@@ -46,6 +48,8 @@ const UpdateRoutePage = () => {
         setValue('price', data?.price);
         setValue('timeShift', data?.timeShift);
         setValue('distance', data?.distance);
+        setValue('pickupPoint', data?.pickupPoint);
+        setValue('dropoffPoint', data?.dropoffPoint);
       },
       onError: () => {
         toast.error('Load route data failed');
@@ -116,6 +120,42 @@ const UpdateRoutePage = () => {
                   label="Destination"
                   error={Boolean(errors.destination)}
                   helperText={errors?.destination?.message || ''}
+                  {...field}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Controller
+              name="pickupPoint"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  required
+                  label="Pickup Point"
+                  error={Boolean(errors.pickupPoint)}
+                  helperText={errors?.pickupPoint?.message || ''}
+                  {...field}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Controller
+              name="dropoffPoint"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  required
+                  label="Dropoff Point"
+                  error={Boolean(errors.dropoffPoint)}
+                  helperText={errors?.dropoffPoint?.message || ''}
                   {...field}
                 />
               )}
