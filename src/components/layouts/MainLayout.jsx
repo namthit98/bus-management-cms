@@ -1,32 +1,32 @@
-import * as React from 'react';
-import Cookies from 'js-cookie';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/auth.context';
-import { TOKEN_KEY } from '../../const';
+import * as React from "react";
+import Cookies from "js-cookie";
+import PropTypes from "prop-types";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { Outlet, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth.context";
+import { TOKEN_KEY } from "../../const";
 
 const drawerWidth = 240;
 
 function MainLayout(props) {
   const { window } = props;
   const navigate = useNavigate();
-  const { dispatch } = React.useContext(AuthContext);
+  const { dispatch, isAdmin, isStaff } = React.useContext(AuthContext);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -47,39 +47,51 @@ function MainLayout(props) {
       <Toolbar />
       <Divider />
       <List>
-        <ListItem button key={'/'} onClick={() => navigate('/')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={'Dashboard'} />
-        </ListItem>
+        {isAdmin || isStaff ? (
+          <>
+            <ListItem button key={"/"} onClick={() => navigate("/")}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Dashboard"} />
+            </ListItem>
 
-        <ListItem button key={'/users'} onClick={() => navigate('/users')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={'Users'} />
-        </ListItem>
+            <ListItem button key={"/users"} onClick={() => navigate("/users")}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Users"} />
+            </ListItem>
 
-        <ListItem button key={'/routes'} onClick={() => navigate('/routes')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={'Routes'} />
-        </ListItem>
+            <ListItem
+              button
+              key={"/routes"}
+              onClick={() => navigate("/routes")}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Routes"} />
+            </ListItem>
 
-        <ListItem button key={'/coaches'} onClick={() => navigate('/coaches')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={'Coaches'} />
-        </ListItem>
+            <ListItem
+              button
+              key={"/coaches"}
+              onClick={() => navigate("/coaches")}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Coaches"} />
+            </ListItem>
+          </>
+        ) : null}
 
-        <ListItem button key={'/lines'} onClick={() => navigate('/lines')}>
+        <ListItem button key={"/lines"} onClick={() => navigate("/lines")}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={'Lines'} />
+          <ListItemText primary={"Lines"} />
         </ListItem>
       </List>
     </div>
@@ -89,7 +101,7 @@ function MainLayout(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{
@@ -103,11 +115,11 @@ function MainLayout(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ mr: 'auto' }}>
+          <Typography variant="h6" noWrap component="div" sx={{ mr: "auto" }}>
             Bus Management
           </Typography>
           <div>
@@ -125,13 +137,13 @@ function MainLayout(props) {
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorEl)}
               onClose={handleClose}
@@ -146,7 +158,7 @@ function MainLayout(props) {
               </MenuItem> */}
               <MenuItem
                 onClick={() => {
-                  navigate('/change-password');
+                  navigate("/change-password");
                   handleClose();
                 }}
               >
@@ -154,9 +166,9 @@ function MainLayout(props) {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  dispatch({ type: 'USER_LOGOUT' });
+                  dispatch({ type: "USER_LOGOUT" });
                   Cookies.remove(TOKEN_KEY);
-                  navigate('/login');
+                  navigate("/login");
                 }}
               >
                 Logout
@@ -180,9 +192,9 @@ function MainLayout(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
             },
           }}
@@ -192,9 +204,9 @@ function MainLayout(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
             },
           }}

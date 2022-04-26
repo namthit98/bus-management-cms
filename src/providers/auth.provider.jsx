@@ -22,9 +22,16 @@ const AuthProvider = ({ children }) => {
   const user = state?.user || null;
   const token = state?.token || '';
 
+  const isAdmin = user?.role === 'admin'
+  const isStaff = user?.role === 'staff'
+  const isDriver = user?.role === 'driver'
+
   const exportData = {
     user,
     token,
+    isAdmin,
+    isStaff,
+    isDriver,
     dispatch,
   };
 

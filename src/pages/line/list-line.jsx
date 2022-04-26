@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Box,
   Button,
@@ -25,9 +26,11 @@ import { useState } from 'react';
 import handleErrors from '../../libs/handle-error';
 import { toast } from 'react-toastify';
 import RouteService from '../../services/route.service';
+import { AuthContext } from '../../contexts/auth.context';
 
 const ListLine = () => {
   const navigate = useNavigate();
+  const { isAdmin, isStaff } = React.useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const [startingPoint, setStartingPoint] = useState('all');
@@ -171,9 +174,17 @@ const ListLine = () => {
         </Grid>
       </Box>
 
-      {lineDataQuery.data.map((line) => {
+      {lineDataQuery.data.map((line, index) => {
+        let bg = '#fff'
+        const start = moment(line?.startTime); // some random moment in time (in ms)
+        const end = moment(); // some random moment after start (in ms)
+        const diff = start.diff(end);
+        if(diff && moment.duration(diff, "milliseconds").asMinutes() < 30) {
+          bg = '#e3ffde'
+        }
+
         return (
-          <Paper elevation={3} sx={{ mb: 2, p: 2 }}>
+          <Paper elevation={3} sx={{ mb: 2, p: 2, background: bg }}>
             <Grid container spacing={2} sx={{ alignItems: 'center' }}>
               <Grid item xs={12} lg={3}>
                 <Typography variant="h6" component="span">
@@ -219,12 +230,12 @@ const ListLine = () => {
                   <VisibilityIcon />
                 </IconButton>
                 &nbsp;&nbsp;&nbsp;
-                <IconButton
+                {isAdmin || isStaff ? <IconButton
                   aria-label="delete"
                   onClick={handleClickOpen.bind(null, line._id)}
                 >
                   <DeleteIcon />
-                </IconButton>
+                </IconButton> : null}
               </Grid>
             </Grid>
           </Paper>

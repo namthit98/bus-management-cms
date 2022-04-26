@@ -22,10 +22,12 @@ import { toast } from 'react-toastify';
 import PageLoading from '../../components/ui/PageLoading';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import TicketService from '../../services/ticket.service';
+import { AuthContext } from '../../contexts/auth.context';
 
 const LineDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const { isAdmin, isStaff } = React.useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
   const [phone, setPhone] = React.useState('');
   const [fullname, setFullname] = React.useState('');
@@ -90,7 +92,7 @@ const LineDetail = () => {
         <ChevronLeftIcon />
       </IconButton>
       &nbsp;&nbsp;&nbsp;
-      <Button
+      {isAdmin || isStaff ? <Button
         disabled={
           lineDataQuery.data?.coach?.seats === lineDataQuery.data.tickets.length
         }
@@ -100,7 +102,7 @@ const LineDetail = () => {
         {lineDataQuery.data?.coach?.seats === lineDataQuery.data.tickets.length
           ? 'Out of seats'
           : 'Add Ticket'}
-      </Button>
+      </Button> : null}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Ticket Form</DialogTitle>
         <DialogContent>
@@ -166,14 +168,14 @@ const LineDetail = () => {
                       label={ticket?.status.toUpperCase()}
                     />
                   </Typography>
-                  <IconButton
+                  {isAdmin || isStaff ? <IconButton
                     color="error"
                     aria-label="delete"
                     size="small"
                     onClick={handleRemoveTicket.bind(null, ticket._id)}
                   >
                     <DeleteIcon />
-                  </IconButton>
+                  </IconButton> : null}
                 </Paper>
               </Grid>
             );
