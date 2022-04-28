@@ -38,7 +38,7 @@ const LineDetail = () => {
     },
     {
       onError: () => {
-        toast.error('Load line data failed');
+        // toast.error('Load line data failed');
       },
     }
   );
@@ -92,17 +92,21 @@ const LineDetail = () => {
         <ChevronLeftIcon />
       </IconButton>
       &nbsp;&nbsp;&nbsp;
-      {isAdmin || isStaff ? <Button
-        disabled={
-          lineDataQuery.data?.coach?.seats === lineDataQuery.data.tickets.length
-        }
-        variant="outlined"
-        onClick={handleClickOpen}
-      >
-        {lineDataQuery.data?.coach?.seats === lineDataQuery.data.tickets.length
-          ? 'Out of seats'
-          : 'Add Ticket'}
-      </Button> : null}
+      {isAdmin || isStaff ? (
+        <Button
+          disabled={
+            lineDataQuery.data?.coach?.seats ===
+            lineDataQuery.data.tickets.length
+          }
+          variant="outlined"
+          onClick={handleClickOpen}
+        >
+          {lineDataQuery.data?.coach?.seats ===
+          lineDataQuery.data.tickets.length
+            ? 'Out of seats'
+            : 'Add Ticket'}
+        </Button>
+      ) : null}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Ticket Form</DialogTitle>
         <DialogContent>
@@ -168,14 +172,16 @@ const LineDetail = () => {
                       label={ticket?.status.toUpperCase()}
                     />
                   </Typography>
-                  {isAdmin || isStaff ? <IconButton
-                    color="error"
-                    aria-label="delete"
-                    size="small"
-                    onClick={handleRemoveTicket.bind(null, ticket._id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton> : null}
+                  {isAdmin || isStaff ? (
+                    <IconButton
+                      color="error"
+                      aria-label="delete"
+                      size="small"
+                      onClick={handleRemoveTicket.bind(null, ticket._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : null}
                 </Paper>
               </Grid>
             );

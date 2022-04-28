@@ -50,7 +50,7 @@ const ListLine = () => {
     {
       placeholderData: [],
       onError: () => {
-        toast.error('Load line data failed');
+        // toast.error('Load line data failed');
       },
     }
   );
@@ -195,7 +195,7 @@ const ListLine = () => {
         if (
           diff &&
           diff > 0 &&
-          moment.duration(diff, 'milliseconds').asMinutes() < 30 &&
+          moment.duration(diff, 'milliseconds').asMinutes() < 120 &&
           index === 0
         ) {
           bg = '#e3ffde';

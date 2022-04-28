@@ -31,9 +31,9 @@ const CreateRoute = () => {
     defaultValues: {
       startingPoint: '',
       destination: '',
-      price: '',
-      timeShift: '',
-      distance: '',
+      price: 0,
+      timeShift: 0,
+      distance: 0,
       pickupPoint: '',
       dropoffPoint: '',
     },
@@ -143,7 +143,6 @@ const CreateRoute = () => {
                 fullWidth
                 required
                 label="Price (VNĐ)"
-                type="number"
                 error={Boolean(errors.price)}
                 helperText={errors?.price?.message || ''}
                 {...field}
@@ -162,7 +161,6 @@ const CreateRoute = () => {
                 fullWidth
                 required
                 label="Time Shift (Hour)"
-                type="number"
                 error={Boolean(errors.timeShift)}
                 helperText={errors?.timeShift?.message || ''}
                 {...field}
@@ -181,7 +179,6 @@ const CreateRoute = () => {
                 fullWidth
                 required
                 label="Distance (Km)"
-                type="number"
                 error={Boolean(errors.distance)}
                 helperText={errors?.distance?.message || ''}
                 {...field}

@@ -84,7 +84,7 @@ const UpdateCoachPage = () => {
           <ChevronLeftIcon />
         </IconButton>
         &nbsp;&nbsp;&nbsp;
-        <span>Update User Info</span>
+        <span>Update Coach</span>
       </Typography>
       <Box
         onSubmit={handleSubmit(onSubmit)}
