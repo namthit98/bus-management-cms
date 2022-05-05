@@ -65,6 +65,17 @@ function MainLayout(props) {
 
             <ListItem
               button
+              key={'/customers'}
+              onClick={() => navigate('/customers')}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Customers'} />
+            </ListItem>
+
+            <ListItem
+              button
               key={'/routes'}
               onClick={() => navigate('/routes')}
             >

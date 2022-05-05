@@ -23,6 +23,8 @@ import CoachPage from './pages/coach/coach';
 import UpdateCoachPage from './pages/coach/update';
 import LinePage from './pages/line/line';
 import LineDetail from './pages/line/line-detail';
+import CustomerPage from './pages/customer/customer';
+import UpdateCustomerPage from './pages/customer/update';
 
 function App() {
   const { dispatch } = useContext(AuthContext);
@@ -101,6 +103,24 @@ function App() {
             element={
               <RequiredAuth>
                 <UpdateUserPage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/customers"
+            element={
+              <RequiredAuth>
+                <CustomerPage />
+              </RequiredAuth>
+            }
+          />
+
+          <Route
+            path="/customers/:customerId/update"
+            element={
+              <RequiredAuth>
+                <UpdateCustomerPage />
               </RequiredAuth>
             }
           />
